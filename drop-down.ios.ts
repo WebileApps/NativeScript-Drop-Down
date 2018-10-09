@@ -34,6 +34,7 @@ import {
     Length,
     backgroundColorProperty,
     colorProperty,
+    disabledItemsProperty,
     fontInternalProperty,
     hintProperty,
     itemsProperty,
@@ -170,6 +171,13 @@ export class DropDown extends DropDownBase {
     }
     public [hintProperty.setNative](value: string) {
         this.ios.hint = value;
+    }
+
+    public [disabledItemsProperty.getDefault](): number[] {
+        return [];
+    }
+    public [disabledItemsProperty.setNative](value: number[]) {
+        this.refresh();
     }
 
     public [colorProperty.getDefault](): UIColor {
@@ -318,12 +326,17 @@ class DropDownListPickerDelegateImpl extends NSObject implements UIPickerViewDel
         const owner = this._owner.get();
         const style = owner.style;
         const label = TNSLabel.alloc().init();
-        
+        const disabledItems = owner.disabledItems;
+
         label.text = owner._getItemAsString(row);
 
         // Copy Styles
         if (style.color) {
             label.textColor = style.color.ios;
+        }
+
+        if (disabledItems.indexOf(row - 1) !== -1 && owner.disabledItemColor) {
+            label.textColor = new Color(owner.disabledItemColor).ios;
         }
 
         label.padding = {
@@ -335,18 +348,18 @@ class DropDownListPickerDelegateImpl extends NSObject implements UIPickerViewDel
 
         label.font = style.fontInternal.getUIFont(label.font);
 
-        switch (style.textAlignment) {
-            case "initial":
-            case "left":
-                label.textAlignment = NSTextAlignment.Left;
-                break;
-            case "center":
-                label.textAlignment = NSTextAlignment.Center;
-                break;
-            case "right":
-                label.textAlignment = NSTextAlignment.Right;
-                break;
-        }
+        // switch (style.textAlignment) {
+        //     case "initial":
+        //     case "left":
+        //         label.textAlignment = NSTextAlignment.Left;
+        //         break;
+            // case "center":
+        label.textAlignment = NSTextAlignment.Center;
+        //         break;
+        //     case "right":
+        //         label.textAlignment = NSTextAlignment.Right;
+        //         break;
+        // }
 
         _setTextAttributes(label, style);
 
@@ -359,6 +372,14 @@ class DropDownListPickerDelegateImpl extends NSObject implements UIPickerViewDel
             const oldIndex = owner.selectedIndex;
 
             owner.selectedIndex = row;
+
+            if (owner.disabledItems.indexOf(row - 1) !== -1 && owner.disabledItemColor) {
+                owner.nativeView.color = new Color(owner.disabledItemColor).ios;
+            } else {
+                const color = owner.color instanceof Color ? owner.color.ios : owner.color;
+                owner.nativeView.color = color;
+            }
+
             if (row !== oldIndex) {
                 owner.notify({
                     eventName: DropDownBase.selectedIndexChangedEvent,
