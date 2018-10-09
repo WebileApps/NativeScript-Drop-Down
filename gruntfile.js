@@ -8,7 +8,8 @@
             "!demo-ng/**/*.*",
             "!bin/**/*.*"
         ],
-        outDir: "bin/dist/"
+        outDir: "bin/dist/",
+        packDir: "pack/",
     }
 
     grunt.initConfig({
@@ -75,7 +76,11 @@
             npm_publish: {
                 cmd: "npm publish",
                 cwd: localConfig.outDir
-            }
+            },
+            npm_pack: {
+                cmd: "npm pack ../" + localConfig.outDir,
+                cwd: localConfig.packDir
+            },
         }
     });
 
@@ -125,5 +130,11 @@
         "build",
         "lint",
         "exec:npm_publish"
+    ]);
+    
+    grunt.registerTask("pack", [
+        "build",
+        "lint",
+        "exec:npm_pack"
     ]);
 };
