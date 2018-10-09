@@ -5,6 +5,8 @@
         <DropDown #dd
                   [class]="cssClass"
                   [items]="items"
+                  [disabledItems]="disabledItems"
+                  disabledItemColor = "#00ff00"
                   [(ngModel)]="selectedIndex"
                   [hint]="hint"
                   (selectedIndexChanged)="onchange($event)"

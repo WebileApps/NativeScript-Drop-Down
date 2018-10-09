@@ -11,7 +11,8 @@ export class DropDownComponent implements OnInit {
     public hint = "My Hint";
     public items: ValueList<string>;
     public cssClass: string = "default";
-
+    public disabledItems = [0, 1, 3];
+    
     public ngOnInit() {
         this.items = new ValueList<string>();
         for (let loop = 0; loop < 200; loop++) {

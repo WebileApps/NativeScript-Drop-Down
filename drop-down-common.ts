@@ -31,9 +31,11 @@ export abstract class DropDownBase extends View implements DropDownDefinition {
     public hint: string;
     public selectedIndex: number;
     public items: any[] | ItemsSource;
+    public disabledItems: number[];
     public accessoryViewVisible: boolean;
     public isItemsSourceIn: boolean;
     public isValueListIn: boolean;
+    public disabledItemColor: string;
 
     public abstract open();
     public abstract close();
@@ -155,3 +157,15 @@ export const hintProperty = new Property<DropDownBase, string>({
     defaultValue: ""
 });
 hintProperty.register(DropDownBase);
+
+export const disabledItemsProperty = new Property<DropDownBase, number[]>({
+    name: "disabledItems",
+    defaultValue: []
+});
+disabledItemsProperty.register(DropDownBase);
+
+export const disabledItemColorProperty = new Property<DropDownBase, string>({
+    name: "disabledItemColor",
+    defaultValue: null
+});
+disabledItemColorProperty.register(DropDownBase);

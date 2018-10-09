@@ -33,6 +33,7 @@ import {
     DropDownBase,
     backgroundColorProperty,
     colorProperty,
+    disabledItemsProperty,
     hintProperty,
     itemsProperty,
     selectedIndexProperty
@@ -151,6 +152,13 @@ export class DropDown extends DropDownBase {
         return "";
     }
     public [hintProperty.setNative](value: string) {
+        (this.android.getAdapter() as DropDownAdapter).notifyDataSetChanged();
+    }
+
+    public [disabledItemsProperty.getDefault](): number[] {
+        return [];
+    }
+    public [disabledItemsProperty.setNative](value: number[]) {
         (this.android.getAdapter() as DropDownAdapter).notifyDataSetChanged();
     }
 
@@ -307,7 +315,7 @@ function initializeTNSSpinner() {
 /* TNSSpinner END */
 
 /* A snapshot-friendly, lazy-loaded class for DropDownAdpater BEGIN */
-interface DropDownAdapter extends android.widget.BaseAdapter, android.widget.ISpinnerAdapter {
+interface DropDownAdapter extends android.widget.BaseAdapter, android.widget.SpinnerAdapter {
     /*tslint:disable-next-line no-misused-new*/
     new (owner: WeakRef<DropDown>): DropDownAdapter;
 }
@@ -319,7 +327,7 @@ function initializeDropDownAdapter() {
         return;
     }
 
-    class DropDownAdapterImpl extends android.widget.BaseAdapter implements android.widget.ISpinnerAdapter {
+    class DropDownAdapterImpl extends android.widget.BaseAdapter implements android.widget.SpinnerAdapter {
         constructor(private owner: WeakRef<DropDown>) {
             super();
 
@@ -377,8 +385,8 @@ function initializeDropDownAdapter() {
             if (!this.owner) {
                 return null;
             }
-
             const owner = this.owner.get();
+            const disabledItems = owner.disabledItems;
 
             if (!owner) {
                 return null;
@@ -394,11 +402,16 @@ function initializeDropDownAdapter() {
 
                 const label = view.getViewById<Label>(LABELVIEWID);
                 label.text = this.getItem(index);
-
+                
                 // Copy root styles to view
                 if (owner.style.color) {
                     label.style.color = owner.style.color;
                 }
+
+                if (disabledItems.indexOf(index - 1) !== -1 && owner.disabledItemColor) {
+                    label.style.color = new Color(owner.disabledItemColor);
+                }
+                
                 label.style.textDecoration = owner.style.textDecoration;
                 label.style.textAlignment = owner.style.textAlignment;
                 label.style.fontInternal = owner.style.fontInternal;

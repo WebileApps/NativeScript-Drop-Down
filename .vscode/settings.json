@@ -4,8 +4,8 @@
         "**/.git": true,
         "**/.DS_Store": true, 
         "demo": true, 
-        "demo-ng": true, 
-        "bin/**": true
+        "demo-ng": false, 
+        "bin/**": false
     },
     "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -1,19 +1,20 @@
 .default {
-    padding: 15;
+    padding: 5;
     background-color: red;
     color: yellow;
-    font-size: 25;
+    font-size: 12;
     font-weight: bold;
     font-style: italic;
     text-align: center;
     text-decoration: underline;
-    margin: 20;
+    margin: 10;
 }
 .changed-styles {
-    padding: 10;
-    font-size: 35;
-    text-decoration: line-through;
-    background-color: blue;
-    color: green;
-    text-align: right;
+    margin: 10;
+    padding: 5;
+    font-size: 12;
+    /* text-decoration: line-through; */
+    background-color: yellowgreen;
+    color: white;
+    text-align: left;
 }
