@@ -335,7 +335,7 @@ class DropDownListPickerDelegateImpl extends NSObject implements UIPickerViewDel
             label.textColor = style.color.ios;
         }
 
-        if (disabledItems.indexOf(row - 1) !== -1 && owner.disabledItemColor) {
+        if (disabledItems.indexOf(row) !== -1 && owner.disabledItemColor) {
             label.textColor = new Color(owner.disabledItemColor).ios;
         }
 
@@ -373,7 +373,7 @@ class DropDownListPickerDelegateImpl extends NSObject implements UIPickerViewDel
 
             owner.selectedIndex = row;
 
-            if (owner.disabledItems.indexOf(row - 1) !== -1 && owner.disabledItemColor) {
+            if (owner.disabledItems.indexOf(row) !== -1 && owner.disabledItemColor) {
                 owner.nativeView.color = new Color(owner.disabledItemColor).ios;
             } else {
                 const color = owner.color instanceof Color ? owner.color.ios : owner.color;
