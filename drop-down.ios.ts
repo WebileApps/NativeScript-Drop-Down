@@ -138,6 +138,13 @@ export class DropDown extends DropDownBase {
     }
 
     public refresh() {
+
+        if (typeof this.selectedIndex != "undefined") {
+            if (this.disabledItems.indexOf(this.selectedIndex) > -1) {
+                this.nativeView.color = new Color(this.disabledItemColor).ios;
+            }
+        }
+
         this._listPicker.reloadAllComponents();
 
         // Coerce selected index after we have set items to native view.
@@ -184,8 +191,12 @@ export class DropDown extends DropDownBase {
         return this.nativeView.color;
     }
     public [colorProperty.setNative](value: Color | UIColor) {
-        const color = value instanceof Color ? value.ios : value;
-
+        let color = value instanceof Color ? value.ios : value;
+        if (typeof this.selectedIndex != "undefined") {
+            if (this.disabledItems.indexOf(this.selectedIndex) > -1) {
+                color = new Color(this.disabledItemColor).ios;
+            }
+        }
         this.nativeView.color = color;
         this._listPicker.tintColor = color;
         this._listPicker.reloadAllComponents();

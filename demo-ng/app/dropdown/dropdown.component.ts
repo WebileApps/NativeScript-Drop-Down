@@ -7,7 +7,7 @@ import { SelectedIndexChangedEventData, ValueList } from "nativescript-drop-down
     templateUrl: "./dropdown.component.html",
 })
 export class DropDownComponent implements OnInit {
-    public selectedIndex: number = null;
+    public selectedIndex: number = 1;
     public hint = "My Hint";
     public items: ValueList<string>;
     public cssClass: string = "default";
