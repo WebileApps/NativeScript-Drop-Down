@@ -139,6 +139,9 @@ export class DropDown extends DropDownBase {
 
     public refresh() {
 
+        const color = this.color instanceof Color ? this.color.ios : this.color;
+        this.nativeView.color = color;
+
         if (typeof this.selectedIndex !== "undefined") {
             if (this.disabledItems.indexOf(this.selectedIndex) > -1) {
                 this.nativeView.color = new Color(this.disabledItemColor).ios;
@@ -160,7 +163,14 @@ export class DropDown extends DropDownBase {
             // HACK to fix #178
             setTimeout(() => {
                 this._listPicker.selectRowInComponentAnimated(value, 0, true);
-            }, 1);    
+            }, 1);
+
+            if (this.disabledItems.indexOf(value) > -1) {
+                this.nativeView.color = new Color(this.disabledItemColor).ios;
+            } else {
+                const color = this.color instanceof Color ? this.color.ios : this.color;
+                this.nativeView.color = color;
+            }
         }
 
         this.ios.setText(this._getItemAsString(value));
