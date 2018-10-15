@@ -1,6 +1,6 @@
 {
   "name": "nativescript-drop-down",
-  "version": "4.0.1",
+  "version": "4.2.1",
   "description": "A NativeScript DropDown widget.",
   "main": "drop-down",
   "typings": "drop-down.d.ts",
@@ -14,6 +14,9 @@
       "pan": "true",
       "core3": "true",
       "category": "Interface"
+    },
+    "tns-ios": {
+      "version": "4.2.0"
     }
   },
   "repository": {
