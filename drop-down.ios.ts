@@ -139,7 +139,7 @@ export class DropDown extends DropDownBase {
 
     public refresh() {
 
-        if (typeof this.selectedIndex != "undefined") {
+        if (typeof this.selectedIndex !== "undefined") {
             if (this.disabledItems.indexOf(this.selectedIndex) > -1) {
                 this.nativeView.color = new Color(this.disabledItemColor).ios;
             }
@@ -192,7 +192,7 @@ export class DropDown extends DropDownBase {
     }
     public [colorProperty.setNative](value: Color | UIColor) {
         let color = value instanceof Color ? value.ios : value;
-        if (typeof this.selectedIndex != "undefined") {
+        if (typeof this.selectedIndex !== "undefined") {
             if (this.disabledItems.indexOf(this.selectedIndex) > -1) {
                 color = new Color(this.disabledItemColor).ios;
             }
